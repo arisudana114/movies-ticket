@@ -2,7 +2,7 @@
 
 namespace App\Controllers;
 
-use App\Entities\Titles;
+// use App\Entities\Titles;
 
 class Home extends BaseController
 {
