@@ -34,24 +34,22 @@
 <div class="container">
     <div class="tabs is-boxed">
         <ul>
-            <li class="is-active" data-target="product-details">
-                <a>Product Details</a>
-            </li>
-            <li data-target="delivery-information">
-                <a>Delivery Information</a>
-            </li>
+            <?php foreach ($show_dates as $show_date) : ?>
+                <li class="is-active px-1" data-target="product-details">
+                    <a><?= $show_date->show_date; ?></a>
+                </li>
+            <?php endforeach; ?>
         </ul>
     </div>
-    <div class="px-2" id="tab-content">
-        <div id="product-details">
-            <h3 class="is-size-5 title">Product Details</h3>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia laudantium tempore nisi minus deleniti soluta ut excepturi ea, natus, eum repudiandae voluptates hic aspernatur nihil asperiores corporis tenetur quos vel.</p>
+    <?php foreach ($show_dates as $show_date) : ?>
+        <div class="px-2" id="tab-content">
+            <div id="delivery-information" class="is-hidden">
+                <h3 class="is-size-5 title">Delivery Information</h3>
+                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia laudantium tempore nisi minus deleniti soluta ut excepturi ea, natus, eum repudiandae voluptates hic aspernatur nihil asperiores corporis tenetur quos vel.</p>
+            </div>
         </div>
-        <div id="delivery-information" class="is-hidden">
-            <h3 class="is-size-5 title">Delivery Information</h3>
-            <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia laudantium tempore nisi minus deleniti soluta ut excepturi ea, natus, eum repudiandae voluptates hic aspernatur nihil asperiores corporis tenetur quos vel.</p>
-        </div>
-    </div>
+    <?php endforeach; ?>
+
 </div>
 <!-- tabs ends-->
 

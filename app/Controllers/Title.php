@@ -26,9 +26,18 @@ class Title extends BaseController
     public function detail($id)
     {
         $titles = $this->model->find($id);
+        $titles_model = new \App\Models\TitlesModel;
+        $show_dates = $titles_model->select('titles.id, title, show_date.show_date, cinema.cinema_name, show_time.show_time')
+            ->join('movies', 'titles.id = movies.titles_id', 'inner')
+            ->join('show_time', 'show_time.id = movies.show_time_id', 'inner')
+            ->join('show_date', 'show_date.id = movies.show_date_id', 'inner')
+            ->join('cinema', 'cinema.id = movies.cinema_id', 'inner')
+            ->where('titles.id', $id)
+            ->findAll();
 
         return view("Title/detail", [
-            'titles' => $titles
+            'titles' => $titles,
+            'show_dates' => $show_dates
         ]);
     }
 }
