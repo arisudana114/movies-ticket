@@ -25,7 +25,7 @@ class UserModel extends \CodeIgniter\Model
         ],
         'password_confirmation' => [
             'required' => 'Please confirm the password',
-            'matches' => 'Please enter te same password again'
+            'matches' => 'Please enter the same password again'
         ]
     ];
 

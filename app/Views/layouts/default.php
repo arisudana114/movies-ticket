@@ -65,7 +65,7 @@
 
     <?= $this->renderSection('content'); ?>
 
-    <script src="<?= site_url('/js/display.js') ?>"></script>
+    <script src="<?= site_url('/js/main.js') ?>"></script>
 
 </body>
 
