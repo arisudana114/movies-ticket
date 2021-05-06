@@ -34,21 +34,28 @@
 <div class="container">
     <div class="tabs is-boxed">
         <ul>
-            <?php foreach ($show_dates as $show_date) : ?>
-                <li class="is-active px-1" data-target="product-details">
-                    <a><?= $show_date->show_date; ?></a>
-                </li>
+            <?php $counter = 0;
+            $show  = array();  ?>
+            <?php foreach ($schedules as $schedule) : ?>
+                <?php if (!in_array($schedule->show_date, $show)) : ?>
+                    <li class="<?= $counter > 0 ? "px-1" : "is-active px-1"; ?>" data-target="<?= $schedule->show_date; ?>">
+                        <a><?= $schedule->show_date; ?></a>
+                        <?php $counter++;
+                        array_push($show, $schedule->show_date); ?>
+                    </li>
+                <?php endif; ?>
             <?php endforeach; ?>
         </ul>
     </div>
-    <?php foreach ($show_dates as $show_date) : ?>
-        <div class="px-2" id="tab-content">
-            <div id="delivery-information" class="is-hidden">
-                <h3 class="is-size-5 title">Delivery Information</h3>
-                <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Officia laudantium tempore nisi minus deleniti soluta ut excepturi ea, natus, eum repudiandae voluptates hic aspernatur nihil asperiores corporis tenetur quos vel.</p>
+    <div class="px-2" id="tab-content">
+        <?php $counter2 = 0 ?>
+        <?php foreach ($schedules as $schedule) : ?>
+            <div id="<?= $schedule->show_date; ?>" class="<?= $counter2 > 0 ? "is-hidden px-0" : "px-0"; ?>">
+                <h3 class="is-size-5 title mb-6"><?= $schedule->cinema_name; ?></h3>
             </div>
-        </div>
-    <?php endforeach; ?>
+            <?php $counter2++; ?>
+        <?php endforeach; ?>
+    </div>
 
 </div>
 <!-- tabs ends-->
