@@ -38,7 +38,7 @@
             $show  = array();  ?>
             <?php foreach ($schedules as $schedule) : ?>
                 <?php if (!in_array($schedule->show_date, $show)) : ?>
-                    <li class="<?= $counter > 0 ? "px-1" : "is-active px-1"; ?>" data-target="<?= $schedule->show_date; ?>">
+                    <li class="<?= $counter >= 0 ? "px-1" : "is-active px-1"; ?>" data-target="<?= $schedule->show_date; ?>">
                         <a><?= $schedule->show_date; ?></a>
                         <?php $counter++;
                         array_push($show, $schedule->show_date); ?>
@@ -48,27 +48,18 @@
         </ul>
     </div>
     <div class="px-2" id="tab-content">
-        <?php $counter2 = 0 ?>
+        <?php $counter2 = 0;
+        $show2  = array();
+        function array_has_dupes($array)
+        {
+            return count($array) !== count(array_unique($array));
+        }; ?>
         <?php foreach ($schedules as $schedule) : ?>
-            <div id="<?= $schedule->show_date; ?>" class="<?= $counter2 > 0 ? "is-hidden px-0" : "px-0"; ?>">
-                <!-- accordion -->
-                <div class="accordion w-25 mb-5" id="accordionExample">
-                    <div class="accordion-item">
-                        <h2 class="accordion-header" id="headingOne">
-                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                <?= $schedule->cinema_name; ?>
-                            </button>
-                        </h2>
-                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                            <div class="accordion-body">
-                                <?= $schedule->show_time; ?>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- accordion ends -->
+            <div id="<?= $schedule->show_date; ?>" class="<?= $counter2 >= 0 ? "is-hidden px-0" : "px-0"; ?>">
+                <?= !array_has_dupes($show2) ? $schedule->cinema_name : '' ?>
             </div>
-            <?php $counter2++; ?>
+            <?php $counter2++;
+            array_push($show2, $schedule->cinema_name); ?>
         <?php endforeach; ?>
     </div>
 
