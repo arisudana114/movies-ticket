@@ -51,7 +51,22 @@
         <?php $counter2 = 0 ?>
         <?php foreach ($schedules as $schedule) : ?>
             <div id="<?= $schedule->show_date; ?>" class="<?= $counter2 > 0 ? "is-hidden px-0" : "px-0"; ?>">
-                <h3 class="is-size-5 title mb-6"><?= $schedule->cinema_name; ?></h3>
+                <!-- accordion -->
+                <div class="accordion w-25 mb-5" id="accordionExample">
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                <?= $schedule->cinema_name; ?>
+                            </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
+                            <div class="accordion-body">
+                                <?= $schedule->show_time; ?>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- accordion ends -->
             </div>
             <?php $counter2++; ?>
         <?php endforeach; ?>
