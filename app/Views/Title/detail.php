@@ -57,6 +57,7 @@
         <?php foreach ($schedules as $schedule) : ?>
             <div id="<?= $schedule->show_date; ?>" class="<?= $counter2 >= 0 ? "is-hidden px-0" : "px-0"; ?>">
                 <?= !array_has_dupes($show2) ? $schedule->cinema_name : '' ?>
+                <?= $schedule->show_time; ?>
             </div>
             <?php $counter2++;
             array_push($show2, $schedule->cinema_name); ?>
