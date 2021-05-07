@@ -34,7 +34,8 @@
 <div class="container">
     <div class="tabs is-boxed">
         <ul>
-            <?php $counter = 0;
+            <?php
+            $counter = 0;
             $show  = array();  ?>
             <?php foreach ($schedules as $schedule) : ?>
                 <?php if (!in_array($schedule->show_date, $show)) : ?>
@@ -50,20 +51,53 @@
     <div class="px-2" id="tab-content">
         <?php $counter2 = 0;
         $show2  = array();
-        function array_has_dupes($array)
-        {
-            return count($array) !== count(array_unique($array));
-        }; ?>
+        ?>
         <?php foreach ($schedules as $schedule) : ?>
-            <div id="<?= $schedule->show_date; ?>" class="<?= $counter2 >= 0 ? "is-hidden px-0" : "px-0"; ?>">
-                <?= !array_has_dupes($show2) ? $schedule->cinema_name : '' ?>
-                <?= $schedule->show_time; ?>
+            <?php $babi = $schedule->show_date; ?>
+            <?php $cinema = str_replace(' ', '', $schedule->cinema_name) ?>
+
+            <div id="<?= $babi; ?>" class="<?= $counter2 >= 0 ? "is-hidden px-0" : "px-0"; ?>">
+
+                <?php if (!in_array($schedule->cinema_name . $schedule->show_date, $show2)) : ?>
+
+                    <div class="accordion accordion-flush w-25" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" id="flush-heading<?= $cinema; ?>">
+                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapse<?= $cinema; ?>" aria-expanded="false" aria-controls="flush-collapse<?= $cinema; ?>">
+                                    <?= $schedule->cinema_name; ?>
+                                </button>
+                            </h2>
+                            <div id="flush-collapse<?= $cinema; ?>" class="accordion-collapse collapse" aria-labelledby="flush-heading<?= $cinema; ?>" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <a href="" class="button is-danger"><?= $schedule->show_time; ?></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <?php elseif (in_array($schedule->cinema_name . $schedule->show_date, $show2)) : ?>
+
+                    <div class="accordion accordion-flush w-25" id="accordionFlushExample">
+                        <div class="accordion-item">
+                            <div id="flush-collapse<?= $cinema; ?>" class="accordion-collapse collapse" aria-labelledby="flush-heading<?= $cinema; ?>" data-bs-parent="#accordionFlushExample">
+                                <div class="accordion-body">
+                                    <a href="" class="button is-danger"><?= $schedule->show_time; ?></a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                <?php endif; ?>
+
             </div>
             <?php $counter2++;
-            array_push($show2, $schedule->cinema_name); ?>
+            $ngehe = $schedule->cinema_name . $schedule->show_date;
+            if (!in_array($ngehe, $show2)) {
+                array_push($show2, $ngehe);
+            }
+            ?>
         <?php endforeach; ?>
     </div>
-
 </div>
 <!-- tabs ends-->
 

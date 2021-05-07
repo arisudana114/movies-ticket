@@ -11,26 +11,41 @@ class Login extends BaseController
 
     public function create()
     {
+
         $email = $this->request->getPost('email');
         $password = $this->request->getPost('password');
+        $remember_me = (bool) $this->request->getPost('remember_me');
 
-        $model = new \App\Models\UserModel;
+        $auth = service('auth');
 
-        $user = $model->where('email', $email)
-            ->first();
+        if ($auth->login($email, $password, $remember_me)) {
 
-        if ($user === null) {
+            $redirect_url = session('redirect_url') ?? '/';
+
+            unset($_SESSION['redirect_url']);
+
+            return redirect()->to($redirect_url)
+                ->with('info', 'Login successful')
+                ->withCookies();
+        } else {
             return redirect()->back()
                 ->withInput()
-                ->with('warning', 'User not found');
-        } else {
-            if (password_verify($password, $user->password_hash)) {
-                echo "Login ok";
-            } else {
-                return redirect()->back()
-                    ->withInput()
-                    ->with('warning', 'Incorrect password');
-            }
+                ->with('warning', 'Invalid login');
         }
+    }
+
+
+    public function delete()
+    {
+        service('auth')->logout();
+
+        return redirect()->to('/login/showLogoutMessage')
+            ->withCookies();
+    }
+
+    public function showLogoutMessage()
+    {
+        return redirect()->to('/')
+            ->with('info', 'Logout successful');
     }
 }
