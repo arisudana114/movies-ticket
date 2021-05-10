@@ -15,7 +15,7 @@
                 <strong><?= $title->title ?></strong>
             </div>
             <div>
-                <a href="<?= site_url("title/detail/" . $title->id) ?>" class="button is-rounded is-danger mt-2 is-small"><strong>Beli Tiket</strong></a>
+                <a href="<?= site_url("title/detail/" . $title->id) ?>" class="button is-rounded is-link mt-2 is-small"><strong>Beli Tiket</strong></a>
             </div>
         </div>
     <?php endforeach; ?>
