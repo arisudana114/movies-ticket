@@ -82,5 +82,26 @@ class Title extends BaseController
             $seat->is_taken = 0;
             $seatsModel->save($seat);
         }
+
+        $user_model = new \App\Models\UserModel;
+        $user = $user_model->find(current_user()->id);
+        $this->sendActivationEmail($user);
+    }
+
+    public function sendActivationEmail($user)
+    {
+        $email = service('email');
+
+        $email->setTo($user->email);
+
+        $email->setSubject('Pembelian tiket berhasil');
+
+        $message = view('Title/ticket_email', [
+            'user' => $user
+        ]);
+
+        $email->setMessage($message);
+
+        $email->send();
     }
 }
