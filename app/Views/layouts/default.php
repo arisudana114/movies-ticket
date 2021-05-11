@@ -43,10 +43,24 @@
         <div class="navbar-menu" id="nav-links">
             <div class="navbar-end">
 
-                <div class="navbar-item">Hello Ari</div>
-                <a class="navbar-item" href="<?= site_url("/profile/show") ?>">Profile</a>
-                <a class="navbar-item" href="<?= site_url("/movies") ?>">Movies</a>
-                <a class="navbar-item" href="<?= site_url("/logout") ?>">Log out</a>
+                <?php if (current_user()) : ?>
+
+                    <div class="navbar-item">Hello <?= esc(current_user()->name); ?></div>
+                    <a class="navbar-item" href="<?= site_url("/profile/show") ?>">Profile</a>
+
+                    <?php if (current_user()->is_admin) : ?>
+                        <a href="<?= site_url("/admin/users") ?>">Users</a>
+                    <?php endif; ?>
+
+                    <a class="navbar-item" href="<?= site_url("/movies") ?>">Movies</a>
+                    <a class="navbar-item" href="<?= site_url("/logout") ?>">Log out</a>
+
+                <?php else : ?>
+
+                    <a class="navbar-item" href="<?= site_url("/signup") ?>">Sign up</a>
+                    <a class="navbar-item" href="<?= site_url("/login") ?>">Log in</a>
+
+                <?php endif; ?>
 
             </div>
         </div>
