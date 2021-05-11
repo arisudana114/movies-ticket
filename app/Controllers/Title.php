@@ -36,7 +36,6 @@ class Title extends BaseController
             ->orderBy('show_date.show_date', 'ASC')
             ->findAll();
 
-        // dd($schedules);
         return view("Title/detail", [
             'titles' => $titles,
             'schedules' => $schedules
@@ -45,6 +44,7 @@ class Title extends BaseController
 
     public function seats($id)
     {
+        //shows available seats based on which movies, show dates and show times
         $moviesModel = new \App\Models\MoviesModel;
         $seatsModel = new \App\Models\SeatsModel;
         $show_date = $this->request->getPost("show_date");
@@ -60,10 +60,8 @@ class Title extends BaseController
             ->where('show_date.show_date', $show_date)
             ->where('show_time.show_time', $show_time)
             ->first();
-        $seats = $seatsModel->findAll();
-        // ->where('movies_id', $moviesDate->id)
-
-        // dd($moviesDate);
+        $seats = $seatsModel->where('movies_id', $moviesDate->id)
+            ->findAll();
 
         return view('Title/seats', [
             'date' => $show_date,
@@ -74,39 +72,15 @@ class Title extends BaseController
         ]);
     }
 
-    public function insertSeats($moviesDate)
+    public function updateSeats($moviesDate)
     {
-        // $seatsInput = new \App\Entities\Seats($this->request->getPost());
-        $seatsInput = $this->request->getPost();
-        $seatsInput['movies_id'] = $moviesDate;
-
-        // dd($seatsInput);
-
+        //update seats status (taken or not)
+        $seatCodes = $this->request->getPost('seats_code');
         $seatsModel = new \App\Models\SeatsModel;
-
-        // $babi = $seatsModel->where('movies_id', $moviesDate)
-        //     ->where('seats_code', $seatsInput->seats_code)
-        //     ->findAll();
-        foreach ($seatsInput['seats_code'] as $input) {
-            $seatsModel->insert(
-                [
-                    'seats_code' => $input,
-                    'movies_id' => $moviesDate,
-                    'is_taken' => 1
-                ]
-            );
+        foreach ($seatCodes as $seatCode) {
+            $seat = $seatsModel->where('movies_id', $moviesDate)->where('seats_code', $seatCode)->first();
+            $seat->is_taken = 0;
+            $seatsModel->save($seat);
         }
-
-        // if ($seatsModel->insert($seatsInput)) {
-        //     echo "berhasil berhasil berhasil monyet";
-        // }
-
-        // if (!isset($babi)) {
-
-        //     $seatsModel->insert($seatsInput);
-        //     echo "berhasil";
-        // } else {
-        //     echo "goblok lu ngentod";
-        // }
     }
 }
